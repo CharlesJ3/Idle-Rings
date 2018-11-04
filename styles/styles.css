@@ -1,0 +1,64 @@
+/*
+* Animations
+*/
+
+@keyframes flickerText {
+  0% {color: black;}
+  10% {color: black;}
+  30% {color: red;}
+  50% {color: red;}
+  70% {color: red;}
+  90% {color: red;}
+  100% {color: red;}
+}
+
+@keyframes fadeOut {
+  0% {display: none;}
+  10% {display: inherit;}
+  100% {display: none;}
+}
+
+p {
+  color: red;
+  font-size: 22px;
+}
+
+#wrapper{
+  width: 800px;
+  height: 600px;
+  border: 1px solid red;
+  text-align: center;
+  float: left;
+  margin: 0 auto;
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#storyline, #test {
+  position: absolute;
+  top: 50px;
+  z-index: 10;
+  left: 100px;
+}
+
+.beginHidden {
+  /* display: none; */
+}
+
+.flickerOn {
+  animation: flickerText 3s ease-out 1, fadeOut 5s linear 1;
+  /* animation-name: flickerText, fadeOut;
+  animation-duration: 2s, 15s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1; */
+}
+
+.flickerOnTwo {
+  animation: flickerText 36s ease-out 1;
+}
+
+.flickerOnThree {
+  animation: flickerText 81s ease-out 1;
+}
