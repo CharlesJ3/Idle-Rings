@@ -19,8 +19,15 @@
 }
 
 p {
-  color: red;
+  color: black;
   font-size: 22px;
+}
+
+#test {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
 }
 
 #wrapper{
@@ -34,17 +41,6 @@ p {
   position: absolute;
   top: 0;
   left: 0;
-}
-
-#storyline, #test {
-  position: absolute;
-  top: 50px;
-  z-index: 10;
-  left: 100px;
-}
-
-.beginHidden {
-  /* display: none; */
 }
 
 .flickerOn {
@@ -61,4 +57,14 @@ p {
 
 .flickerOnThree {
   animation: flickerText 81s ease-out 1;
+}
+
+/*
+* General Positioning
+*/
+
+#buttonAddTorus {
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }

@@ -5,22 +5,18 @@
  */
 
 const player = {
+  // Ring Speed Checks 
+  torusOneActivated: false,
+  
   // Player Statistics  (essential)
  
   // Player Information (non-essential)
   name: '',
   id: '',
-
-
+  currentRingCount: 1,
+  permanentRingCountForVariableNames: 1,
   // Stats Area
-  gamesPlayedOverall: 0,
-  gamesWonOverall: 0,
-  gamesLostOverall: 0,
-  enemiesHungOverall: 0,
-  gamesPlayed: 0,
-  gamesWon: 0,
-  gamesLost: 0,
-  enemiesHung: 0,
+
 }
 
 const enemy = {
@@ -32,6 +28,21 @@ const enemy = {
 }
 
 const updateCam = {
-  cameraPerspectiveChange: 5,
+  cameraPerspectiveChange: 50,
+  cameraZPos: 50,
+}
+
+const mainLights = {
+  color: [0xffffff, 0xffffff],
+  xPos: [10, 0],
+  yPos: [0, 10],
+  zPos: [0, 0],
+}
+
+let rings = {
+  currentRings: [],
+  ringOne: [
+
+  ]
 }
 
