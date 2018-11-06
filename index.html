@@ -14,11 +14,17 @@
   <div id="wrapper">
     <canvas id="battleArea"></canvas>
 
-    <!-- Buttons -->
+    <!-- UI Sections -->
+    
+
+    <!-- Button and Control Section -->
+    <div id="LightControls">
+      <h3>Select Light Colors</h3>
+    </div>
+
     <div id="buttonAddTorus">
-      <button onclick="addNewRingToArray()">Click Me</button>
-      <button onclick="removeAllObjectsExceptMainSphere()">Remove</button>
-      <button onclick="runTorusOne(scene)">runTorusOne</button>
+      <button onclick="addNewRingToArray()">Add Energy Ring</button>
+      <button onclick="removeAllObjectsExceptMainSphere()">Remove All Energy Rings</button>
     </div>
   </div>
 
@@ -26,10 +32,11 @@
   <!-- Script Sources -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.module.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123879/OrbitControls.js"></script>
+  <script src="scripts/materials.js"></script>
   <script src="scripts/globals.js"></script>
   <script src="scripts/objects.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/main-functions.js"></script>
-
 </body>
 </html>

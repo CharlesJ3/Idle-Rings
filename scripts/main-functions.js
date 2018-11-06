@@ -3,13 +3,15 @@
  */
 
 // Removes all objects 
+
+//TODO : REMOVE ONE
+//TODO ISSUE: unable to correctly snag the player.torus???Activated and set it to false; will cause game-freezing bug
+
 const removeAllObjects = () => {
   for( var i = scene.children.length - 1; i >= 0; i--) { 
     obj = scene.children[i];
     scene.remove(obj);
   }
-
-
 
   player.permanentRingCountForVariableNames = 1;
 }
@@ -21,9 +23,15 @@ const removeAllObjectsExceptMainSphere = () => {
     scene.remove(obj);
   }
 
-  player.torusOneActivated, player.torusTwoActivated, player.torusThreeActivated,
-  player.torusFourActivated, player.torusFiveActivated, player.torusSixActivated,
-  player.torusSevenActivated, player.torusEightActivated, player.torusNineActivated,
+  player.torusOneActivated = false;
+  player.torusTwoActivated = false;
+  player.torusThreeActivated = false;
+  player.torusFourActivated = false;
+  player.torusFiveActivated = false;
+  player.torusSixActivated = false;
+  player.torusSevenActivated = false; 
+  player.torusEightActivated = false; 
+  player.torusNineActivated = false;
   player.torusTenActivated = false;
 
   let sphere = new THREE.Mesh( mainSphere, material );
@@ -46,12 +54,6 @@ const addNewRingToArray = () => {
   // arc                - Central angle. Default is Math.PI * 2.
 
   //TODO : Change to object.js for dynamic values, currently static
-  let material = new THREE.MeshPhongMaterial({
-    color: 0x00ff00,
-    specular: 0xbb2301,
-    shininess: 12
-  });
-
   let setVariableNameForTorus = `torus${player.permanentRingCountForVariableNames}`;
 
   switch(setVariableNameForTorus) {
@@ -167,6 +169,10 @@ const runTorusFive = () => {
   // Turn the spinner on when you activate the torus
   player.torusFiveActivated = true;
 
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 65;
+  // camera.updateProjectionMatrix();
+
   torusAddFive = torus5;
   torusFive.add(torusAddFive);
 }
@@ -182,6 +188,10 @@ const runTorusSix = () => {
 
   // Turn the spinner on when you activate the torus
   player.torusSixActivated = true;
+
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 70;
+  // camera.updateProjectionMatrix();
 
   torusAddSix = torus6;
   torusSix.add(torusAddSix);
@@ -199,6 +209,10 @@ const runTorusSeven = () => {
   // Turn the spinner on when you activate the torus
   player.torusSevenActivated = true;
 
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 80;
+  // camera.updateProjectionMatrix();
+
   torusAddSeven = torus7;
   torusSeven.add(torusAddSeven);
 }
@@ -214,6 +228,10 @@ const runTorusEight = () => {
 
   // Turn the spinner on when you activate the torus
   player.torusEightActivated = true;
+
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 90;
+  // camera.updateProjectionMatrix();
 
   torusAddEight = torus8;
   torusEight.add(torusAddEight);
@@ -232,6 +250,10 @@ const runTorusNine = () => {
   // Turn the spinner on when you activate the torus
   player.torusNineActivated = true;
 
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 100;
+  // camera.updateProjectionMatrix();
+
   torusAddNine = torus9;
   torusNine.add(torusAddNine);
 }
@@ -248,6 +270,10 @@ const runTorusTen = () => {
   // Turn the spinner on when you activate the torus
   player.torusTenActivated = true;
 
+  // On Torus Five and above, we'll start increasing the max camera distance
+  // camera.fov = 110;
+  // camera.updateProjectionMatrix();
+
   torusAddTen = torus10;
   torusTen.add(torusAddTen);
 }
@@ -259,7 +285,53 @@ const checkRotations = () => {
   torus.position.x += .01;
 }
 
+/**
+ * Light Controls
+ */
+const spawnLightOne = () => {
+  const lightColorSelector = document.querySelector('#selectColor').value;
 
+  if(lightColorSelector != null) {
+    mainLights.selectedColor = lightColorSelector;
+
+    const removeLight = scene.getObjectByName('dirLight');
+
+    scene.remove(removeLight);
+
+    let dirLight = new THREE.DirectionalLight(mainLights.selectedColor);
+    dirLight.position.set(-43, 5, 5);
+    dirLight.name = 'dirLight';
+    scene.add(dirLight);
+  }
+}
+
+const spawnLightTwo = () => {
+  const lightColorSelector = document.querySelector('#selectColor').value;
+
+  if(lightColorSelector != null) {
+    mainLights.selectedColorTwo = lightColorSelector;
+
+    const removeLightTwo = scene.getObjectByName('dirLightTwo');
+
+    scene.remove(removeLightTwo);
+
+    let dirLightTwo = new THREE.DirectionalLight(mainLights.selectedColorTwo);
+    dirLightTwo.position.set(43, -5, 5);
+    dirLightTwo.name = 'dirLightTwo';
+    scene.add(dirLightTwo);
+  }
+}
+
+
+const removeLights = () => {
+  const removeLight = scene.getObjectByName('dirLight');
+  // console.log(removeLight)
+  scene.remove(scene.getObjectByName('dirLight'));
+
+  const removeLightTwo = scene.getObjectByName('dirLightTwo');
+  // console.log(removeLight)
+  scene.remove(scene.getObjectByName('dirLightTwo'));
+}
 /**
  * On Load Functions
  */

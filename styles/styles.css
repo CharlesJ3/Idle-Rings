@@ -68,3 +68,14 @@ p {
   top: 0px;
   left: 0px;
 }
+
+#LightControls {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#LightControls h3{
+  padding-top: 25px;
+  color: white;
+}

@@ -1,10 +1,12 @@
 //Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: document.getElementById("battleArea"),
-  antialias: true
+  antialias: true, 
+  alpha: true,
 });
 
 renderer.setSize(799, 599);
+renderer.setClearColor( '#fff', 0.1 ); // the default
 
 // Configure renderer clear color
 // renderer.setClearColor("#FF4C4C");
@@ -17,43 +19,60 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.z = updateCam.cameraZPos;
+
+
+// Build the controls.
+var controls = new THREE.OrbitControls( camera );
+// controls.autoRotate = true;
+controls.maxDistance = 100;
+controls.minDistance = 10;
+
+// Help with left mouse speed
+controls.enableDamping = true;
+controls.dampingFactor = .15;
+
+// controls.maxAzimuthAngle = 100;
+controls.maxPolarAngle = 2.0;
+
+controls.mouseButtons = {
+	LEFT: THREE.MOUSE.LEFT,
+}
+
+
+// controls.panSpeed = 0;
+camera.lookAt( camera );
+
 //Scene
 const scene = new THREE.Scene();
 
 //Lights
 
 //**IN PROGRESS **/
-// let dirLight = new THREE.DirectionalLight("red");
+// let dirLight = new THREE.DirectionalLight(mainLights.selectedColor);
 // dirLight.position.set(43, -5, 5);
+// dirLight.name = 'dirLight';
 // scene.add(dirLight);
 
-// let dirLightTwo = new THREE.DirectionalLight("red");
-// dirLightTwo.position.set(-43, 5, 5);
-// scene.add(dirLightTwo);
+let dirLightTwo = new THREE.DirectionalLight(mainLights.selectedColorTwo);
+dirLightTwo.position.set(-43, 5, 5);
+dirLightTwo.name = 'dirLightTwo';
+scene.add(dirLightTwo);
 
-// let spotLight = new THREE.SpotLight("blue");
-// spotLight.position.set(43, -5, 133);
-// scene.add(spotLight);
+let spotLight = new THREE.SpotLight('#002080');
+spotLight.position.set(43, -5, 133);
+scene.add(spotLight);
 
-var light = new THREE.PointLight( 'red', 1, 100 );
+let light = new THREE.PointLight( '#002080', 1, 100 );
 light.position.set( 5, 5, 50 );
 scene.add( light );
 
-var lightTwo = new THREE.PointLight( 'maroon', 1, 100 );
+let lightTwo = new THREE.PointLight( '#0000cc', 1, 100 );
 lightTwo.position.set( -5, -5, 50 );
 scene.add( lightTwo );
 
-//OBJECTS
+//OBJECTS (Game Objects, not OOP/Programming Objects, although they are not exactly mutually exclusive)
 let mainSphere = new THREE.SphereGeometry( 3, 64, 64 );
 
-let material = new THREE.MeshPhysicalMaterial({
-  color: 0xffffff,
-  specular: 0xbb2301,
-  shininess: 125,
-  transparency: true,
-  reflectivity: 0.96,
-  depthWrite: false,
-});
 let sphere = new THREE.Mesh( mainSphere, material );
 scene.add( sphere );
 
@@ -87,36 +106,37 @@ function render() {
   
   if(player.torusFiveActivated){
     let xe = scene.getObjectByName('torusFive');
-    xe.rotation.y += 0.01;
+    xe.rotation.x += 0.01;
     // xe.rotation.y -= 0.01;
   }
   
   if(player.torusSixActivated){
     let xf = scene.getObjectByName('torusSix');
-    xf.rotation.x += 0.01;
+    xf.rotation.y += 0.01;
   }
   
   if(player.torusSevenActivated){
     let xg = scene.getObjectByName('torusSeven');
-    xg.rotation.y += 0.01;
+    xg.rotation.x += 0.01;
     // xg.rotation.y -= 0.01;
   }
   
   if(player.torusEightActivated){
     let xh = scene.getObjectByName('torusEight');
-    xh.rotation.x += 0.01;
+    xh.rotation.y += 0.01;
   }
   
   if(player.torusNineActivated){
     let xi = scene.getObjectByName('torusNine');
-    xi.rotation.y += 0.01;
+    xi.rotation.x += 0.01;
     // xi.rotation.y -= 0.01;
   }
   
   if(player.torusTenActivated){
     let xj = scene.getObjectByName('torusTen');
-    xj.rotation.x += 0.01;
+    xj.rotation.y += 0.01;
   }
+  controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
