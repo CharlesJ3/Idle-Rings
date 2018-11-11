@@ -1,15 +1,15 @@
 //Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: document.getElementById("battleArea"),
-  antialias: true, 
+  antialias: true,
   alpha: true,
 });
 
-renderer.setSize(799, 599);
-renderer.setClearColor( '#fff', 0.1 ); // the default
+renderer.setSize(800, 600);
+renderer.setClearColor('#fff', 0.1); // the default
 
 // Configure renderer clear color
-// renderer.setClearColor("#FF4C4C");
+renderer.setClearColor("lightgrey");
 
 //Camera
 const camera = new THREE.PerspectiveCamera(
@@ -22,9 +22,10 @@ camera.position.z = updateCam.cameraZPos;
 
 
 // Build the controls.
-var controls = new THREE.OrbitControls( camera );
-// controls.autoRotate = true;
-controls.maxDistance = 100;
+var controls = new THREE.OrbitControls(camera);
+controls.autoRotate = true;
+controls.autoRotateSpeed = .05;
+controls.maxDistance = 800;
 controls.minDistance = 10;
 
 // Help with left mouse speed
@@ -35,12 +36,11 @@ controls.dampingFactor = .15;
 controls.maxPolarAngle = 2.0;
 
 controls.mouseButtons = {
-	LEFT: THREE.MOUSE.LEFT,
+  LEFT: THREE.MOUSE.LEFT,
 }
 
-
 // controls.panSpeed = 0;
-camera.lookAt( camera );
+camera.lookAt(camera);
 
 //Scene
 const scene = new THREE.Scene();
@@ -53,90 +53,209 @@ const scene = new THREE.Scene();
 // dirLight.name = 'dirLight';
 // scene.add(dirLight);
 
-let dirLightTwo = new THREE.DirectionalLight(mainLights.selectedColorTwo);
-dirLightTwo.position.set(-43, 5, 5);
-dirLightTwo.name = 'dirLightTwo';
-scene.add(dirLightTwo);
+const addDirLight = () => {
+  let dirLightTwo = new THREE.DirectionalLight(mainLights.selectedColorTwo);
+  dirLightTwo.position.set(-43, 5, 5);
+  dirLightTwo.name = 'dirLightTwo';
+  scene.add(dirLightTwo);
+}
 
-let spotLight = new THREE.SpotLight('#002080');
-spotLight.position.set(43, -5, 133);
-scene.add(spotLight);
+addDirLight();
 
-let light = new THREE.PointLight( '#002080', 1, 100 );
-light.position.set( 5, 5, 50 );
-scene.add( light );
+const addSpotLight = () => {
+  let spotLight = new THREE.SpotLight('#022080');
+  spotLight.position.set(43, -5, 133);
+  scene.add(spotLight);
+}
 
-let lightTwo = new THREE.PointLight( '#0000cc', 1, 100 );
-lightTwo.position.set( -5, -5, 50 );
-scene.add( lightTwo );
+addSpotLight();
+
+// let light = new THREE.PointLight( '#002080', 1, 100 );
+// light.position.set( 5, 5, 50 );
+// scene.add( light );
+
+// let lightTwo = new THREE.PointLight( '#0000cc', 1, 100 );
+// lightTwo.position.set( -5, -5, 50 );
+// scene.add( lightTwo );
 
 //OBJECTS (Game Objects, not OOP/Programming Objects, although they are not exactly mutually exclusive)
-let mainSphere = new THREE.SphereGeometry( 3, 64, 64 );
+let mainSphere = new THREE.SphereGeometry(3, 64, 64);
 
-let sphere = new THREE.Mesh( mainSphere, material );
-scene.add( sphere );
+let sphere = new THREE.Mesh(mainSphere, material);
+scene.add(sphere);
+sphere.position.y = 5;
 
 
-//RENDER LOOP 1
+// Update Text Inside Game
+const updateText = () => {
+  document.querySelector('#mainSourceInfo').innerHTML = `
+  <span style="text-decoration: underline;">Source</span> 
+  <br> 
+    ${(player.source).toFixed(1)} 
+  `
+
+  //Source One
+  document.querySelector('#sourceInfoOne').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[0].ringSourceCost).toFixed(1)}
+  `
+  //Source Two
+  document.querySelector('#sourceInfoTwo').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[1].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Three
+  document.querySelector('#sourceInfoThree').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[2].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Four
+  document.querySelector('#sourceInfoFour').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[3].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Five
+  document.querySelector('#sourceInfoFive').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[4].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Six
+  document.querySelector('#sourceInfoSix').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[5].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Seven
+  document.querySelector('#sourceInfoSeven').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[6].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Eight
+  document.querySelector('#sourceInfoEight').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[7].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Nine
+  document.querySelector('#sourceInfoNine').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[8].ringSourceCost).toFixed(1)}
+  `
+
+  //Source Ten
+  document.querySelector('#sourceInfoTen').innerHTML = `
+  <span style="text-decoration: underline;">Cost</span> 
+    <br> 
+      ${(rings[9].ringSourceCost).toFixed(1)}
+  `
+  // document.querySelector('#ringOne').innerHTML = `Ring One Cost: <br> ${(rings[0].ringSourceCost).toFixed(1)}`
+}
+
+
+
+
+
+// RENDER LOOP 1
 requestAnimationFrame(render);
 
 function render() {
 
-  if(player.torusOneActivated){
+  if (player.torusOneActivated) {
     let xa = scene.getObjectByName('torus');
-    xa.rotation.x += 0.01;
-    // xa.rotation.y -= 0.01;
+    xa.rotation.x += rings[0].rotationalSpeedX;
+    xa.rotation.y += rings[0].rotationalSpeedY;
+
+    rings[0].addSource();
   }
 
-  if(player.torusTwoActivated){
+  if (player.torusTwoActivated) {
     let xb = scene.getObjectByName('torusTwo');
-    xb.rotation.y += 0.01;
+    xb.rotation.x += rings[1].rotationalSpeedX;
+    xb.rotation.y += rings[1].rotationalSpeedY;
+
+    rings[1].addSource();
   }
-  
-  if(player.torusThreeActivated){
+
+  if (player.torusThreeActivated) {
     let xc = scene.getObjectByName('torusThree');
-    xc.rotation.x += 0.01;
-    // xc.rotation.y -= 0.01;
+    xc.rotation.x += rings[2].rotationalSpeedX;
+    xc.rotation.y += rings[2].rotationalSpeedY;
+
+    rings[2].addSource();
   }
-  
-  if(player.torusFourActivated){
+
+  if (player.torusFourActivated) {
     let xd = scene.getObjectByName('torusFour');
-    xd.rotation.y += 0.01;
+    xd.rotation.x += rings[3].rotationalSpeedX;
+    xd.rotation.y += rings[3].rotationalSpeedY;
+
+    rings[3].addSource();
   }
-  
-  if(player.torusFiveActivated){
+
+  if (player.torusFiveActivated) {
     let xe = scene.getObjectByName('torusFive');
-    xe.rotation.x += 0.01;
-    // xe.rotation.y -= 0.01;
+    xe.rotation.x += rings[4].rotationalSpeedX;
+    xe.rotation.y += rings[4].rotationalSpeedY;
+
+    rings[4].addSource();
   }
-  
-  if(player.torusSixActivated){
+
+  if (player.torusSixActivated) {
     let xf = scene.getObjectByName('torusSix');
-    xf.rotation.y += 0.01;
+    xf.rotation.x += rings[5].rotationalSpeedX;
+    xf.rotation.y += rings[5].rotationalSpeedY;
+
+    rings[5].addSource();
   }
-  
-  if(player.torusSevenActivated){
+
+  if (player.torusSevenActivated) {
     let xg = scene.getObjectByName('torusSeven');
-    xg.rotation.x += 0.01;
-    // xg.rotation.y -= 0.01;
+    xg.rotation.x += rings[6].rotationalSpeedX;
+    xg.rotation.y += rings[6].rotationalSpeedY;
+
+    rings[6].addSource();
   }
-  
-  if(player.torusEightActivated){
+
+  if (player.torusEightActivated) {
     let xh = scene.getObjectByName('torusEight');
-    xh.rotation.y += 0.01;
+    xh.rotation.x += rings[7].rotationalSpeedX;
+    xh.rotation.y += rings[7].rotationalSpeedY;
+
+    rings[7].addSource();
   }
-  
-  if(player.torusNineActivated){
+
+  if (player.torusNineActivated) {
     let xi = scene.getObjectByName('torusNine');
-    xi.rotation.x += 0.01;
-    // xi.rotation.y -= 0.01;
+    xi.rotation.x += rings[8].rotationalSpeedX;
+    xi.rotation.y += rings[8].rotationalSpeedY;
+
+    rings[8].addSource();
   }
-  
-  if(player.torusTenActivated){
+
+  if (player.torusTenActivated) {
     let xj = scene.getObjectByName('torusTen');
-    xj.rotation.y += 0.01;
+    xj.rotation.x += rings[9].rotationalSpeedX;
+    xj.rotation.y += rings[9].rotationalSpeedY;
+
+    rings[9].addSource();
   }
+
   controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(render);
+  updateText();
 }
